@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Equipos de Implementación</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --orange: #E8721A;
+    --orange-light: #FFF3E8;
+    --orange-mid: #FDDCC0;
+    --orange-dark: #7A3400;
+    --red: #C93030;
+    --red-light: #FFF0F0;
+    --red-mid: #FAC8C8;
+    --red-dark: #6B0F0F;
+    --blue: #1A6DB5;
+    --blue-light: #EEF5FF;
+    --blue-mid: #B8D4F5;
+    --blue-dark: #0A2F5A;
+    --violet: #6941C6;
+    --violet-light: #F4F0FF;
+    --violet-mid: #D4C4F9;
+    --violet-dark: #2D1464;
+    --bg: #F7F5F2;
+    --surface: #FFFFFF;
+    --text: #1A1A1A;
+    --text-muted: #6B6B6B;
+    --border: rgba(0,0,0,0.07);
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  header h1 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: .4rem;
+  }
+
+  header p {
+    font-size: .95rem;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .team-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform .2s, box-shadow .2s;
+  }
+
+  .team-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.09);
+  }
+
+  .team-header {
+    padding: 1.4rem 1.5rem 1.2rem;
+    position: relative;
+  }
+
+  .team-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  .team-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: -.02em;
+    vertical-align: middle;
+  }
+
+  .team-stats {
+    display: flex;
+    gap: 10px;
+    margin-top: 1rem;
+  }
+
+  .stat {
+    flex: 1;
+    border-radius: var(--radius-sm);
+    padding: .7rem .9rem;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.5rem;
+    font-weight: 500;
+    display: block;
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-size: .7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-top: 3px;
+    display: block;
+    opacity: .75;
+  }
+
+  .team-body {
+    padding: 0 1.5rem 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  .section-label {
+    font-size: .68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--text-muted);
+    margin-bottom: .5rem;
+  }
+
+  .role-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+  }
+
+  .avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .avatar-lg {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .role-name { font-size: .88rem; font-weight: 500; }
+  .role-sub  { font-size: .75rem; color: var(--text-muted); }
+
+  .impl-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .utn-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .utn-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 8px;
+    border-radius: var(--radius-sm);
+  }
+
+  .utn-name { font-size: .83rem; font-weight: 400; }
+  .utn-badge {
+    font-size: .65rem;
+    font-weight: 500;
+    padding: 1px 7px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .areas-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .area-group { margin-bottom: 4px; }
+
+  .area-secretaria {
+    font-size: .7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text-muted);
+    margin-bottom: 3px;
+    padding-left: 2px;
+  }
+
+  .area-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    font-size: .82rem;
+  }
+
+  .area-count {
+    font-family: 'DM Mono', monospace;
+    font-size: .72rem;
+    font-weight: 500;
+    padding: 1px 6px;
+    border-radius: 10px;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0;
+  }
+
+  /* ---- ORANGE ---- */
+  .orange .team-header { background: var(--orange-light); border-bottom: 1px solid var(--orange-mid); }
+  .orange .team-dot { background: var(--orange); }
+  .orange .team-name { color: var(--orange-dark); }
+  .orange .stat { background: var(--orange-mid); color: var(--orange-dark); }
+  .orange .avatar-lg { background: var(--orange-mid); color: var(--orange-dark); }
+  .orange .avatar { background: var(--orange-mid); color: var(--orange-dark); }
+  .orange .utn-row { background: #FFF8F2; }
+  .orange .utn-badge { background: var(--orange-mid); color: var(--orange-dark); }
+  .orange .area-item { background: #FFF8F2; }
+  .orange .area-count { background: var(--orange-mid); color: var(--orange-dark); }
+  .orange .prestamo { background: #FDE8CC; color: #7A3400; }
+
+  /* ---- RED ---- */
+  .red .team-header { background: var(--red-light); border-bottom: 1px solid var(--red-mid); }
+  .red .team-dot { background: var(--red); }
+  .red .team-name { color: var(--red-dark); }
+  .red .stat { background: var(--red-mid); color: var(--red-dark); }
+  .red .avatar-lg { background: var(--red-mid); color: var(--red-dark); }
+  .red .avatar { background: var(--red-mid); color: var(--red-dark); }
+  .red .utn-row { background: #FFF5F5; }
+  .red .utn-badge { background: var(--red-mid); color: var(--red-dark); }
+  .red .area-item { background: #FFF5F5; }
+  .red .area-count { background: var(--red-mid); color: var(--red-dark); }
+
+  /* ---- BLUE ---- */
+  .blue .team-header { background: var(--blue-light); border-bottom: 1px solid var(--blue-mid); }
+  .blue .team-dot { background: var(--blue); }
+  .blue .team-name { color: var(--blue-dark); }
+  .blue .stat { background: var(--blue-mid); color: var(--blue-dark); }
+  .blue .avatar-lg { background: var(--blue-mid); color: var(--blue-dark); }
+  .blue .avatar { background: var(--blue-mid); color: var(--blue-dark); }
+  .blue .utn-row { background: #F2F7FF; }
+  .blue .utn-badge { background: var(--blue-mid); color: var(--blue-dark); }
+  .blue .area-item { background: #F2F7FF; }
+  .blue .area-count { background: var(--blue-mid); color: var(--blue-dark); }
+
+  /* ---- VIOLET ---- */
+  .violet .team-header { background: var(--violet-light); border-bottom: 1px solid var(--violet-mid); }
+  .violet .team-dot { background: var(--violet); }
+  .violet .team-name { color: var(--violet-dark); }
+  .violet .stat { background: var(--violet-mid); color: var(--violet-dark); }
+  .violet .avatar-lg { background: var(--violet-mid); color: var(--violet-dark); }
+  .violet .avatar { background: var(--violet-mid); color: var(--violet-dark); }
+  .violet .utn-row { background: #FAF6FF; }
+  .violet .utn-badge { background: var(--violet-mid); color: var(--violet-dark); }
+  .violet .area-item { background: #FAF6FF; }
+  .violet .area-count { background: var(--violet-mid); color: var(--violet-dark); }
+
+  .progress-bar-wrap {
+    margin-top: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+  }
+  .orange .progress-bar-fill { background: var(--orange); }
+  .red    .progress-bar-fill { background: var(--red); }
+  .blue   .progress-bar-fill { background: var(--blue); }
+  .violet .progress-bar-fill { background: var(--violet); }
+
+  @media (max-width: 640px) {
+    .grid { grid-template-columns: 1fr; }
+    .team-stats { flex-direction: row; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Equipos de Implementación</h1>
+  <p>Guía de Trámites — Municipalidad de Córdoba</p>
+</header>
+
+<div class="grid">
+
+  <!-- EQUIPO NARANJA -->
+  <div class="team-card orange">
+    <div class="team-header">
+      <div>
+        <span class="team-dot"></span>
+        <span class="team-name">Equipo Naranja</span>
+      </div>
+      <div class="team-stats">
+        <div class="stat">
+          <span class="stat-num">91</span>
+          <span class="stat-label">Trámites totales</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">59</span>
+          <span class="stat-label">Digitales</span>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:65%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="team-body">
+      <div>
+        <div class="section-label">Referente de Guía</div>
+        <div class="role-row">
+          <div class="avatar-lg">LU</div>
+          <div><div class="role-name">Luli R.</div></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="section-label">Implementadores Sr</div>
+        <div class="impl-row">
+          <div class="role-row"><div class="avatar">DP</div><div class="role-name">Dani P.</div></div>
+          <div class="role-row"><div class="avatar">IV</div><div class="role-name">Isa V.</div></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="section-label">Pasantes UTN</div>
+        <div class="utn-list">
+          <div class="utn-row"><div class="avatar">LL</div><span class="utn-name">Ledesma Lautaro Fabian</span></div>
+          <div class="utn-row"><div class="avatar">PE</div><span class="utn-name">Ponce Azúa Emilce Lucia</span></div>
+          <div class="utn-row"><div class="avatar">LB</div><span class="utn-name">Lenti Bravo Lucia</span><span class="utn-badge prestamo">Préstamo → Azul</span></div>
+          <div class="utn-row"><div class="avatar">TJ</div><span class="utn-name">Torres Sorcini Julián</span></div>
+          <div class="utn-row"><div class="avatar">LR</div><span class="utn-name">Lopez Rosario Del Carmen</span></div>
+          <div class="utn-row"><div class="avatar">VG</div><span class="utn-name">Vaccaro Gonzalo</span><span class="utn-badge prestamo">Préstamo → Azul</span></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="section-label">Áreas principales</div>
+        <div class="areas-list">
+          <div class="area-group">
+            <div class="area-secretaria">Sec. Administración Pública</div>
+            <div class="area-item"><span>Recursos Tributarios — RTM</span><span class="area-count">39</span></div>
+            <div class="area-item"><span>Catastro</span><span class="area-count">14</span></div>
+          </div>
+          <div class="area-group">
+            <div class="area-secretaria">Sec. de Gobierno</div>
+            <div class="area-item"><span>Registro Civil</span><span class="area-count">36</span></div>
+            <div class="area-item"><span>Defensa al Consumidor</span><span class="area-count">2</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EQUIPO ROJO -->
+  <div class="team-card red">
+    <div class="team-header">
+      <div>
+        <span class="team-dot"></span>
+        <span class="team-name">Equipo Rojo</span>
+      </div>
+      <div class="team-stats">
+        <div class="stat">
+          <span class="stat-num">77</span>
+          <span class="stat-label">Trámites totales</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">46</span>
+          <span class="stat-label">Digitales</span>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:60%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="team-body">
+      <div>
+        <div class="section-label">Referente de Guía</div>
+        <div class="role-row">
+          <div class="avatar-lg">PB</div>
+          <div><div class="role-name">Paula B.</div></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="section-label">Implementadoras Sr</div>
+        <div class="impl-row">
+          <div class="role-row"><div class="avatar">RJ</div><div class="role-name">Ro J.</div></div>
+          <div class="role-row"><div class="avatar">VL</div><div class="role-name">Vale L.</div></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="section-label">Pasantes UTN</div>
+        <div class="utn-list">
+          <div class="utn-row"><div class="avatar">FA</div><span class="utn-name">Farias Agustin Caleb</span></div>
+          <div class="utn-row"><div class="avatar">DC</div><span class="utn-name">D'Andrea Gianesini Candelaria</span></div>
+          <div class="utn-row"><div class="avatar">BC</div><span class="utn-name">Bien Aime Hachley Carl</span></div>
+          <div class="utn-row"><div class="avatar">EF</div><span class="utn-name">Egea Francisco</span></div>
+          <div class="utn-row"><div class="avatar">FD</div><span class="utn-name">Fernández Daniel Adrian</span></div>
+          <div class="utn-row"><div class="avatar">SM</div><span class="utn-name">Sandler Melanie</span></div>
+          <div class="utn-row"><div class="avatar">AS</div><span class="utn-name">Avendaño Santiago</span></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="section-label">Áreas principales</div>
+        <div class="areas-list">
+          <div class="area-group">
+            <div class="area-secretaria">Salud</div>
+            <div class="area-item"><span>Dirección de Calidad Alimentaria</span><span class="area-count">–</span></div>
+            <div class="area-item"><span>Despacho de Salud</span><span class="area-count">24</span></div>
+          </div>
+          <div class="area-group">
+            <div class="area-secretaria">Sec. de Gobierno</div>
+            <div class="area-item"><span>Dirección Cementerios</span><span class="area-count">7</span></div>
+          </div>
+          <div class="area-group">
+            <div class="area-secretaria">Sec. Fortalecimiento Vecinal y Deportes</div>
+            <div class="area-item"><span>–</span><span class="area-count">4</span></div>
+          </div>
+          <div class="area-group">
+            <div class="area-secretaria">Ente de Fiscalización y Control</div>
+            <div class="area-item"><span>–</span><span class="area-count">39</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EQUIPO AZUL -->
+  <div class="team-card blue">
+    <div class="team-header">
+      <div>
+        <span class="team-dot"></span>
+        <span class="team-name">Equipo Azul</span>
+      </div>
+      <div class="team-stats">
+        <div class="stat">
+          <span class="stat-num">74<span style="font-size:.8rem;opacity:.6;">+</span></span>
+          <span class="stat-label">Trámites totales</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">45</span>
+          <span class="stat-label">Digitales</span>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:61%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="team-body">
+      <div>
+        <div class="section-label">Referente de Guía</div>
+        <div class="role-row">
+          <div class="avatar-lg">AS</div>
+          <div><div class="role-name">Ale S.</div></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="section-label">Implementadoras Sr</div>
+        <div class="impl-row">
+          <div class="role-row"><div class="avatar">VP</div><div class="role-name">Vale P.</div></div>
+          <div class="role-row"><div class="avatar">AJ</div><div class="role-name">Andy J.</div></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="section-label">Pasantes UTN</div>
+        <div class="utn-list">
+          <div class="utn-row"><div class="avatar">CJ</div><span class="utn-name">Coutsiers Juan Martín</span></div>
+          <div class="utn-row"><div class="avatar">NJ</div><span class="utn-name">Noriega Alvarez José Emiliano</span></div>
+          <div class="utn-row"><div class="avatar">BC</div><span class="utn-name">Baez Navarro Constanza Mariel</span></div>
+          <div class="utn-row"><div class="avatar">PG</div><span class="utn-name">Perona Giuliana</span></div>
+          <div class="utn-row"><div class="avatar">RJ</div><span class="utn-name">Reta Juan Ignacio</span></div>
+          <div class="utn-row"><div class="avatar">PF</div><span class="utn-name">Patrito Francisco Martin</span></div>
+          <div class="utn-row"><div class="avatar">BS</div><span class="utn-name">Bogarin Sofia Martina</span></div>
+          <div class="utn-row"><div class="avatar">VA</div><span class="utn-name">Vaccaro Agustina</span></div>
+          <div class="utn-row"><div class="avatar">GJ</div><span class="utn-name">Giampieri Jeremias</span></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="section-label">Áreas principales</div>
+        <div class="areas-list">
+          <div class="area-item"><span>Sec. Desarrollo Urbano</span></div>
+          <div class="area-item"><span>Sec. Educación</span></div>
+          <div class="area-item"><span>Sec. Ciudad Inteligente y Transf. Digital</span></div>
+          <div class="area-item"><span>Sec. Políticas Sociales y Des. Humano</span></div>
+          <div class="area-item"><span>Sec. Participación Ciudadana *</span></div>
+          <div class="area-item"><span>Sec. de Gobierno — Área Central</span></div>
+          <div class="area-item"><span>Sec. de Gobierno — Defensa Civil</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EQUIPO VIOLETA -->
+  <div class="team-card violet">
+    <div class="team-header">
+      <div>
+        <span class="team-dot"></span>
+        <span class="team-name">Equipo Violeta</span>
+      </div>
+      <div class="team-stats">
+        <div class="stat" style="background:var(--violet-mid);color:var(--violet-dark);">
+          <span class="stat-num">–</span>
+          <span class="stat-label">Trámites totales</span>
+        </div>
+        <div class="stat" style="background:var(--violet-mid);color:var(--violet-dark);">
+          <span class="stat-num">–</span>
+          <span class="stat-label">Digitales</span>
+        </div>
+      </div>
+    </div>
+    <div class="team-body">
+      <div>
+        <div class="section-label">Referente de Guía</div>
+        <div class="role-row">
+          <div class="avatar-lg">AC</div>
+          <div><div class="role-name">Agos C.</div></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="section-label">Implementadores Sr</div>
+        <div class="impl-row">
+          <div class="role-row"><div class="avatar">BG</div><div class="role-name">Barbi G.</div></div>
+          <div class="role-row"><div class="avatar">TM</div><div class="role-name">Tomas M.</div></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="section-label">Pasantes UTN</div>
+        <div class="utn-list">
+          <div class="utn-row"><div class="avatar">LL</div><span class="utn-name">Lazcano Lucas José</span></div>
+          <div class="utn-row"><div class="avatar">DM</div><span class="utn-name">Domínguez Pauluk Marianela Itatí</span></div>
+          <div class="utn-row"><div class="avatar">GA</div><span class="utn-name">Godoy Alexis Gabriel</span></div>
+          <div class="utn-row"><div class="avatar">GS</div><span class="utn-name">Gimenez Siro Román</span></div>
+          <div class="utn-row"><div class="avatar">CA</div><span class="utn-name">Castro Lopez Azul Camila</span></div>
+          <div class="utn-row"><div class="avatar">MV</div><span class="utn-name">Mateo Villada</span></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="section-label">Áreas principales</div>
+        <div class="areas-list">
+          <div class="area-item"><span>Cultura</span></div>
+          <div class="area-item"><span>Deportes</span></div>
+          <div class="area-item"><span>Turismo</span></div>
+          <div class="area-item"><span>BioCba</span></div>
+          <div class="area-item"><span>Ambiente</span></div>
+          <div class="area-item"><span>Tribunal Administrativo de Faltas</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer style="text-align:center;margin-top:3rem;font-size:.8rem;color:#aaa;">
+  Guía de Trámites · Municipalidad de Córdoba
+</footer>
+
+</body>
+</html>
